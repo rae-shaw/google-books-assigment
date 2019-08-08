@@ -31,7 +31,23 @@ class SearchForm extends React.Component{
 
 	handleSubmit(e){
 		e.preventDefault();
-		console.log(this.state);
+		const url = `https://www.googleapis.com/books/v1/volumes?q=${this.state.searchTerm}&printType=${this.state.printType}
+			&filter=${this.state.bookType}&key=AIzaSyB3rrscIhe4TgGuJ7wUMx2u_X7XKdvavdU`;
+
+		fetch(url)
+	      .then(res=>{
+	        if(!res.ok){
+	          throw new Error("Something went wrong please try again later.")
+	        }
+	        return res
+	      })
+	      .then(res => res.json())
+	     
+
+	      .catch(err=>{
+	        console.log('Something went wrong. Caught by catch')
+	      }); 
+	    
 	}
 
 	render(){
@@ -39,8 +55,7 @@ class SearchForm extends React.Component{
 			<div className='bookSearch'>
 				<form 
 					className='bookSearchForm'
-					onSubmit={e => this.handleSubmit(e)}
-				>
+					onSubmit={e => this.handleSubmit(e)}>
 					<label htmlFor='searchTerm'>Search</label>
 					<input
 						type='text'
@@ -50,10 +65,10 @@ class SearchForm extends React.Component{
 						value={this.state.searchTerm}
 						onChange={e=>this.searchTermChanged(e.target.value)}/>
 					<label htmlFor='printType'>Print Type</label>
-					<select id='mySelect'
+					<select
 						name='printType'
 						id='selectPrintType'
-						onChange={e=>this.printTypeChanged(e.target['mySelect'].value)}>
+						onChange={e=>this.printTypeChanged(e.target.value)}>
 						<option value='all'>All</option>
 						<option value='books'>Books</option>
 						<option value='magazines'>Magazines</option>
@@ -61,7 +76,8 @@ class SearchForm extends React.Component{
 					<label htmlFor='bookType'> Book Type</label>
 					<select
 						name='bookType'
-						id='selectPrintType'>
+						id='selectBookType'
+						onChange={e=>this.bookTypeChanged(e.target.value)}>
 						<option value="no filter">no filter</option>
 						<option value="partial">partial</option>
 						<option value="full">full</option>

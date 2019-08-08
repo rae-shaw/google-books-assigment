@@ -4,6 +4,7 @@ import Header from './header.js';
 import SearchForm from './SearchForm';
 import SearchResults from './SearchResults';
 
+
  const books=[
     {
      "volumeInfo": {
@@ -33,15 +34,13 @@ import SearchResults from './SearchResults';
  
 
 class App extends React.Component {
- 
-
 
   render(){
     return (
       <main className='App'>
         <Header />
         <SearchForm />
-        <SearchResults books={books} />
+        <SearchResults books={this.state.books} />
       </main>
     );
   }
