@@ -1,26 +1,50 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Header from './header.js';
+import SearchForm from './SearchForm';
+import SearchResults from './SearchResults';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+ const books=[
+    {
+     "volumeInfo": {
+        "title": "Flowers",
+        "authors": [
+         "Vijaya Khisty Bodach"
+        ]
+      }
+    },
+    {
+     "volumeInfo": {
+        "title": "Flowers",
+        "authors": [
+         "Gail Saunders-Smith"
+        ]
+      }
+    },
+    {
+     "volumeInfo": {
+        "title": "Flowers",
+        "authors": [
+         "Paul McEvoy"
+        ]
+      }
+    }
+  ];
+ 
+
+class App extends React.Component {
+ 
+
+
+  render(){
+    return (
+      <main className='App'>
+        <Header />
+        <SearchForm />
+        <SearchResults books={books} />
+      </main>
+    );
+  }
 }
 
 export default App;
