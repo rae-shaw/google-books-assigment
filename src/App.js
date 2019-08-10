@@ -5,42 +5,45 @@ import SearchForm from './SearchForm';
 import SearchResults from './SearchResults';
 
 
- const books=[
-    {
-     "volumeInfo": {
-        "title": "Flowers",
-        "authors": [
-         "Vijaya Khisty Bodach"
-        ]
-      }
-    },
-    {
-     "volumeInfo": {
-        "title": "Flowers",
-        "authors": [
-         "Gail Saunders-Smith"
-        ]
-      }
-    },
-    {
-     "volumeInfo": {
-        "title": "Flowers",
-        "authors": [
-         "Paul McEvoy"
-        ]
-      }
-    }
-  ];
+ 
  
 
 class App extends React.Component {
+  constructor(props){
+    super(props)
+    this.state={
+      error: null,
+      isLoaded: false,
+      books: {
+        items: []
+      }
+    }
+  }
+
+  booksChanged(books){
+    console.log("Definitely in app.booksChanged")
+    console.log(this);
+    this.setState({
+      books
+    });
+    console.log(books)
+  }
+
+  // searchTermChanged(searchTerm){
+  //   this.setState({
+  //     searchTerm
+  //   });
+  // }
 
   render(){
     return (
       <main className='App'>
         <Header />
-        <SearchForm />
-        <SearchResults books={this.state.books} />
+        <SearchForm 
+          callBack={this.booksChanged.bind(this)}
+        />
+        <SearchResults 
+        books={this.state.books} />
       </main>
     );
   }

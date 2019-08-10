@@ -2,12 +2,14 @@ import React from 'react';
 import './SearchForm.css';
 
 class SearchForm extends React.Component{
+
 	constructor(props){
 		super(props)
 		this.state={
 			searchTerm: '',
 			printType:'',
-			bookType:''
+			bookType:'',
+			callback: props.callBack
 		};
 	}
 
@@ -22,7 +24,7 @@ class SearchForm extends React.Component{
 			printType
 		});
 	}
-	
+
 	bookTypeChanged(bookType){
 		this.setState({
 			bookType
@@ -32,25 +34,27 @@ class SearchForm extends React.Component{
 	handleSubmit(e){
 		e.preventDefault();
 		const url = `https://www.googleapis.com/books/v1/volumes?q=${this.state.searchTerm}&printType=${this.state.printType}
-			&filter=${this.state.bookType}&key=AIzaSyB3rrscIhe4TgGuJ7wUMx2u_X7XKdvavdU`;
+		&filter=${this.state.bookType}&key=AIzaSyB3rrscIhe4TgGuJ7wUMx2u_X7XKdvavdU`;
+
 
 		fetch(url)
-	      .then(res=>{
-	        if(!res.ok){
-	          throw new Error("Something went wrong please try again later.")
-	        }
-	        return res
-	      })
-	      .then(res => res.json())
-	     
+		.then(res=>{
+			if(!res.ok){
+				throw new Error("Something went wrong please try again later.")
+			}
+			return res
+		})
+		.then(res => res.json())
+		.then(resJson=> { console.log(this.state.callback); this.state.callback(resJson) })
 
-	      .catch(err=>{
-	        console.log('Something went wrong. Caught by catch')
-	      }); 
-	    
+		.catch(err=>{
+			console.log('Something went wrong. Caught by catch', err)
+		}); 
 	}
 
-	render(){
+
+
+    render(){
 		return(
 			<div className='bookSearch'>
 				<form 
@@ -62,8 +66,8 @@ class SearchForm extends React.Component{
 						name='searchTerm'
 						id='textInput'
 						placeholder='Hemmingway'
-						value={this.state.searchTerm}
-						onChange={e=>this.searchTermChanged(e.target.value)}/>
+						value={this.searchTerm}
+						onChange={e => this.searchTermChanged(e.target.value)}/>
 					<label htmlFor='printType'>Print Type</label>
 					<select
 						name='printType'
